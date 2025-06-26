@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MileaKaraokeApp - Logiciel de Karaoké</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e4442a 0%, #c73920 100%);
+            min-height: 100vh;
+            color: #333;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(228, 68, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li a:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            border-radius: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-preview {
+            margin-bottom: 30px;
+        }
+
+        .hero-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 3px solid #e4442a;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            color: #e4442a;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature {
+            background: #fff5f4;
+            padding: 30px 20px;
+            border-radius: 15px;
+            border: 2px solid #ffd6d1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(228, 68, 42, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #e4442a;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, #e4442a, #c73920);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .suggest-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .suggest-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .suggest-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ffd6d1;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e4442a;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-suggest {
+            background: #e4442a;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-suggest:hover {
+            background: #c73920;
+            transform: translateY(-2px);
+        }
+
+        .help-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .help-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .help-steps { 
+            margin: 0 auto;
+        }
+
+        .help-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fff5f4;
+            border-radius: 15px;
+            border-left: 4px solid #e4442a;
+        }
+
+        .step-number {
+            background: #e4442a;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .step-content p {
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .warning-box .warning-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .warning-box p {
+            color: #856404;
+            margin: 0;
+        }
+
+        .faq-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .faq-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .faq-item {
+            border: 2px solid #ffd6d1;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #fff5f4;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .faq-question:hover {
+            background: #ffe8e6;
+        }
+
+        .faq-question.active {
+            background: #e4442a;
+            color: white;
+        }
+
+        .faq-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .download-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .download-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .download-preview {
+            margin-left: 20px;
+        }
+
+        .download-preview img {
+            height: 60px;
+            width: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #e4442a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .system-requirements {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .requirements-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .requirement {
+            text-align: center;
+            padding: 20px;
+            background: #fff5f4;
+            border-radius: 10px;
+        }
+
+        .requirement strong {
+            color: #e4442a;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .password-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .password-modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .password-modal h3 {
+            color: #e4442a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .password-modal p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffd6d1;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #e4442a;
+        }
+
+        .password-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-password {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-password.validate {
+            background: #e4442a;
+            color: white;
+        }
+
+        .btn-password.validate:hover {
+            background: #c73920;
+            transform: translateY(-2px);
+        }
+
+        .btn-password.cancel {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #dee2e6;
+        }
+
+        .btn-password.cancel:hover {
+            background: #e9ecef;
+        }
+
+        .password-error {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-card {
+                padding: 40px 20px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 250px;
+                justify-content: center;
+            }
+
+            .download-preview {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+
+            .suggest-section {
+                padding: 30px 20px;
+            }
+
+            .suggest-title {
+                font-size: 1.5rem;
+            }
+
+            .help-section {
+                padding: 30px 20px;
+            }
+
+            .help-title {
+                font-size: 1.5rem;
+            }
+
+            .help-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-number {
+                margin: 0 auto 15px auto;
+            }
+
+            .faq-section {
+                padding: 30px 20px;
+            }
+
+            .faq-title {
+                font-size: 1.5rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(228, 68, 42, 0.98);
+                padding: 20px;
+                gap: 10px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li a {
+                display: block;
+                padding: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+    <script>
+        // Hash du mot de passe (SHA-256 simplifié)
+        const downloadPasswordHash = "244329128233e507516000000000000000000000000000000000000000000000";
+        
+        // Fonction de hachage simple
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            // Convertir en hexadécimal et compléter à 64 caractères
+            let hexHash = Math.abs(hash).toString(16);
+            while (hexHash.length < 8) {
+                hexHash = '0' + hexHash;
+            }
+            // Ajouter de la complexité pour simuler SHA-256
+            const multiplier = str.length * 1337;
+            const complexHash = (Math.abs(hash) * multiplier).toString(16);
+            return (hexHash + complexHash).substring(0, 64).padEnd(64, '0');
+        }
+
+        // Vérifier le mot de passe (le vrai mot de passe est "mileade2025")
+        function verifyPassword(inputPassword) {
+            const inputHash = simpleHash(inputPassword);
+            return inputHash === downloadPasswordHash;
+        }
+
+        // Toggle FAQ items
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+            const answer = element.nextElementSibling;
+            answer.classList.toggle('active');
+        }
+
+        // Smooth scrolling for navigation links
+        function smoothScroll(target) {
+            document.querySelector(target).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Show password modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+            document.getElementById('passwordInput').focus();
+        }
+
+        // Hide password modal
+        function hidePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordError').style.display = 'none';
+        }
+
+        // Validate password and download
+        function validatePassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const errorElement = document.getElementById('passwordError');
+            
+            if (verifyPassword(inputPassword)) {
+                hidePasswordModal();
+                // Créer un lien temporaire pour le téléchargement
+                const link = document.createElement('a');
+                link.href = 'MileadeKaraokeInstaller.exe';
+                link.download = 'MileadeKaraokeInstaller.exe';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                errorElement.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Handle Enter key in password input
+        function handlePasswordKeyPress(event) {
+            if (event.key === 'Enter') {
+                validatePassword();
+            }
+        }
+
+        // Close mobile menu when clicking on a link
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    document.querySelector('.nav-menu').classList.remove('active');
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('passwordModal');
+                if (event.target === modal) {
+                    hidePasswordModal();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#accueil" class="nav-logo">🎤 MileaKaraokeApp</a>
+            <ul class="nav-menu">
+                <li><a href="#accueil" onclick="smoothScroll('#accueil')">Accueil</a></li>
+                <li><a href="#telecharger" onclick="smoothScroll('#telecharger')">Télécharger</a></li>
+                <li><a href="#aide" onclick="smoothScroll('#aide')">Aide</a></li>
+                <li><a href="#suggestions" onclick="smoothScroll('#suggestions')">Suggestions</a></li>
+                <li><a href="#faq" onclick="smoothScroll('#faq')">FAQ</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header id="accueil">
+            <div class="logo">
+                <img src="mileade.jpg" alt="Mileade Logo">
+                MileaKaraokeApp
+            </div>
+            
+            
+            <div class="download-buttons" id="telecharger">
+                <button onclick="showPasswordModal()" class="btn btn-primary">
+                    💻 Télécharger pour Windows
+                </button>
+  
+            </div>
+        </header>
+<div class="hero-preview">
+                <img src="aperçu.png" alt="Aperçu de MileaKaraokeApp">
+            </div>
+        <div class="main-card">
+            
+            <h1>Transformez votre soirée en spectacle</h1>
+            <div class="description">
+                MileaKaraokeApp est le logiciel de karaoké simple et efficace pour organiser des soirées inoubliables. 
+                Fonctionne entièrement sans internet avec une interface intuitive et des fonctionnalités essentielles 
+                pour créer l'ambiance parfaite.
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">�</div>
+                    <h3>Fonctionne sans internet</h3>
+                    <p>Utilisez l'application n'importe où, même sans connexion internet</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Interface moderne</h3>
+                    <p>Design élégant et facile à utiliser, même pour les débutants</p>
+                </div>
+                 
+            </div>
+        </div >
+
+        <div class="help-section" id="aide">
+            <h2 class="help-title">💡 Comment installer - Aide</h2>
+            
+            <div class="help-steps">
+                <div class="help-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Téléchargez le fichier</h4>
+                        <p>Cliquez sur le bouton de téléchargement ci-dessus pour récupérer le fichier d'installation.</p>
+                    </div>
+                </div>
+
+                <div class="help-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Autorisez l'application</h4>
+                        <p>Windows peut afficher un avertissement de sécurité. Cliquez sur "Informations complémentaires" puis "Exécuter quand même" pour autoriser l'installation.</p>
+                    </div>
+                </div>
+
+                <div class="help-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Suivez l'assistant d'installation</h4>
+                        <p>Lancez le fichier téléchargé et suivez les instructions à l'écran pour installer MileaKaraokeApp sur votre ordinateur.</p>
+                    </div>
+                </div>
+
+                <div class="help-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Profitez de l'application !</h4>
+                        <p>Une fois installé, lancez MileaKaraokeApp depuis votre bureau ou menu démarrer et commencez à chanter !</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-icon">🛡️</div>
+                <h4>Important - Autorisation Windows</h4>
+                <p>Si Windows bloque l'installation, c'est normal ! L'application n'est pas encore reconnue par Microsoft. Cliquez sur "Informations complémentaires" puis "Exécuter quand même" pour continuer l'installation en toute sécurité.</p>
+            </div>
+        </div>
+
+        <div class="suggest-section" id="suggestions">
+            <h2 class="suggest-title">Suggérer une musique</h2>
+            <p style="margin-bottom: 30px; color: #666;">Vous avez une chanson préférée que vous aimeriez voir ajoutée ? Faites-nous en part !</p>
+            
+            <form class="suggest-form" action="https://formspree.io/f/xqabgvwr" method="POST">
+                <div class="form-group">
+                    <label for="artist">Artiste :</label>
+                    <input type="text" id="artist" name="artist" placeholder="Nom de l'artiste" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="song">Titre de la chanson :</label>
+                    <input type="text" id="song" name="song" placeholder="Titre de la chanson" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Votre email (optionnel) :</label>
+                    <input type="email" id="email" name="email" placeholder="votre@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message additionnel (optionnel) :</label>
+                    <textarea id="message" name="message" placeholder="Pourquoi cette chanson est importante pour vous..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-suggest">
+                    🎵 Envoyer ma suggestion
+                </button>
+            </form>
+        </div>
+
+        <div class="faq-section" id="faq">
+            <h2 class="faq-title">❓ Questions Fréquentes</h2>
+ 
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    L'application a-t-elle besoin d'internet pour fonctionner ?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Non ! MileaKaraokeApp fonctionne entièrement sans internet après l'installation. Lors du premier lancement, l'application téléchargera automatiquement une sélection de musiques populaires qui seront stockées localement sur votre ordinateur. Vous pourrez ensuite profiter du karaoké même sans connexion internet.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Pourquoi Windows bloque-t-il l'installation ?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Windows Defender peut bloquer l'installation car l'application n'est pas encore certifiée par Microsoft. C'est normal et sans danger. Cliquez sur "Informations complémentaires" puis "Exécuter quand même" pour continuer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    L'application fonctionne-t-elle sur Mac ou Linux ?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Actuellement, MileaKaraokeApp est disponible uniquement pour Windows. Des versions Mac et Linux sont en développement et seront disponibles prochainement.
+                    </div>
+                </div>
+            </div>
+
+ 
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Comment ajouter de nouvelles chansons ?
+                    <span class="faq-arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Vous pouvez suggerer des musiques via le formulaire de suggestion.
+
+                        Pour mettre vos propres chansons vidéos, vous pouvez les ajouter manuellement dans le dossier "C://Users/Pseudo/Documents/MileadeKaraokeVideos" et relancer le logiciel.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-requirements">
+            <h2 class="requirements-title">Configuration requise</h2>
+            <div class="requirements-grid">
+                <div class="requirement">
+                    <strong>Système d'exploitation</strong>
+                    Windows 10 ou supérieur
+                </div>
+ 
+                <div class="requirement">
+                    <strong>Stockage</strong>
+                    5 GB d'espace libre
+                </div>
+                <div class="requirement">
+                    <strong>Carte son</strong>
+                    Compatible DirectX
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 MileaKaraokeApp. Tous droits réservés. | Développé par Lorenzo Cacciato</p>
+        </footer>
+    </div>
+
+    <!-- Modal mot de passe -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h3>🔐 Accès protégé</h3>
+            <p>Veuillez entrer le mot de passe pour télécharger MileaKaraokeApp</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Mot de passe" onkeypress="handlePasswordKeyPress(event)">
+            <div class="password-buttons">
+                <button onclick="validatePassword()" class="btn-password validate">Valider</button>
+                <button onclick="hidePasswordModal()" class="btn-password cancel">Annuler</button>
+            </div>
+            <div id="passwordError" class="password-error">❌ Mot de passe incorrect. Veuillez réessayer.</div>
+        </div>
+    </div>
+</body>
+</html>
