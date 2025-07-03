@@ -590,13 +590,17 @@
             line-height: 1.5;
         }
 
+        .password-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
         .password-input {
             width: 100%;
-            padding: 15px;
+            padding: 15px 50px 15px 15px;
             border: 2px solid #ffd6d1;
             border-radius: 10px;
             font-size: 1.1rem;
-            margin-bottom: 20px;
             text-align: center;
             transition: border-color 0.3s ease;
         }
@@ -604,6 +608,23 @@
         .password-input:focus {
             outline: none;
             border-color: #e4442a;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #e4442a;
         }
 
         .password-buttons {
@@ -787,6 +808,22 @@
             menu.classList.toggle('active');
         }
 
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleButton = document.getElementById('passwordToggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🙈';
+                toggleButton.title = 'Masquer le mot de passe';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+                toggleButton.title = 'Afficher le mot de passe';
+            }
+        }
+
         // Show password modal
         function showPasswordModal() {
             document.getElementById('passwordModal').style.display = 'block';
@@ -797,6 +834,9 @@
         function hidePasswordModal() {
             document.getElementById('passwordModal').style.display = 'none';
             document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').type = 'password';
+            document.getElementById('passwordToggle').textContent = '👁️';
+            document.getElementById('passwordToggle').title = 'Afficher le mot de passe';
             document.getElementById('passwordError').style.display = 'none';
         }
 
@@ -1055,7 +1095,7 @@
         </div>
 
         <footer>
-            <p>&copy; 2025 MileaKaraokeApp. Tous droits réservés. | Développé par Lorenzo Cacciato</p>
+            <p>&copy; 2025 MileaKaraokeApp 1.1. Tous droits réservés. | Développé par Lorenzo Cacciato</p>
         </footer>
     </div>
 
@@ -1064,7 +1104,10 @@
         <div class="password-modal-content">
             <h3>🔐 Accès protégé</h3>
             <p>Veuillez entrer le mot de passe pour télécharger MileaKaraokeApp</p>
-            <input type="password" id="passwordInput" class="password-input" placeholder="Mot de passe" onkeypress="handlePasswordKeyPress(event)">
+            <div class="password-input-container">
+                <input type="password" id="passwordInput" class="password-input" placeholder="Mot de passe" onkeypress="handlePasswordKeyPress(event)">
+                <button type="button" id="passwordToggle" class="password-toggle" onclick="togglePasswordVisibility()" title="Afficher le mot de passe">👁️</button>
+            </div>
             <div class="password-buttons">
                 <button onclick="validatePassword()" class="btn-password validate">Valider</button>
                 <button onclick="hidePasswordModal()" class="btn-password cancel">Annuler</button>
